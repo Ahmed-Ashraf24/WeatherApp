@@ -4,6 +4,7 @@ import com.example.weatherapp.Data.Model.DailyWeatherInfo
 import com.example.weatherapp.Domain.Entity.DailyWeather
 import com.example.weatherapp.Domain.Entity.ForecastWeather
 import com.example.weatherapp.Utility.Constraints.IconConstraints
+import com.example.weatherapp.Utility.Conversion.ConversionUtilities
 
 class DailyWeatherMapper {
     companion object{
@@ -14,7 +15,7 @@ class DailyWeatherMapper {
             description = dailyWeatherInfo.description,
             iconRes = IconConstraints.getWeatherIcon(dailyWeatherInfo.icon),
             locationName = dailyWeatherInfo.locationName,
-            feelsLike = "${toCelsius(dailyWeatherInfo.feelsLike)}°C",
+            feelsLike = "${ConversionUtilities.toCelsius(dailyWeatherInfo.feelsLike)}°C",
             humidity = "${dailyWeatherInfo.humidity}%",
             windSpeed = "${dailyWeatherInfo.windSpeed} km/h",
             visibility = "${dailyWeatherInfo.visibility}km",
@@ -36,8 +37,6 @@ class DailyWeatherMapper {
             iconResId = dailyWeatherData.iconRes
         )
     }
-        private fun toCelsius(degree: Double): Int {
-            return ((degree - 32) * (5.0 / 9.0)).toInt()
-        }
+
     }
 }

@@ -5,7 +5,7 @@ import android.util.Log
 import com.example.weatherapp.Data.Mapper.DailyWeatherMapper
 import com.example.weatherapp.Data.Model.DailyWeatherInfo
 import com.example.weatherapp.Domain.Entity.DailyWeather
-import com.example.weatherapp.MyApplication
+import com.example.weatherapp.Utility.Conversion.ConversionUtilities
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -42,14 +42,12 @@ class RemoteWeatherData {
                 weatherInfoList.forEach {
                     weatherList.add(DailyWeatherMapper.toDailyWeather(it,
                         when(weatherInfoList.indexOf(it)){
-                            0->"${toCelsius(it.currentTemp)}°C"
-                            else->"${toCelsius(it.minTemp)}°C/${toCelsius(it.maxTemp)}°C"
+                            0->"${ConversionUtilities.toCelsius(it.currentTemp)}°C"
+                            else->"${ConversionUtilities.toCelsius(it.minTemp)}°C/${ConversionUtilities.toCelsius(it.maxTemp)}°C"
                         }
                         ))
                 }
-                with(WeatherDatabaseHelper.getInstance(MyApplication().getContext())) {
-                    upsertWeather(this,weatherList)
-                }
+
                 return weatherList
         } else {
             Log.d("Server returned HTTP :", responseCode.toString())
@@ -64,7 +62,7 @@ class RemoteWeatherData {
         }
 
     }
-   private fun parseWeatherJson(jsonString: String): List<DailyWeatherInfo> {
+    fun parseWeatherJson(jsonString: String): List<DailyWeatherInfo> {
         val result = mutableListOf<DailyWeatherInfo>()
 
         val root = JSONObject(jsonString)
@@ -136,7 +134,5 @@ class RemoteWeatherData {
         }
         return result
     }
-    private fun toCelsius(degree: Double): Int {
-        return ((degree - 32) * (5.0 / 9.0)).toInt()
-    }
+
 }

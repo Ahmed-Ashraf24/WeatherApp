@@ -6,7 +6,6 @@ plugins {
 android {
     namespace = "com.example.weatherapp"
     compileSdk = 35
-
     defaultConfig {
         applicationId = "com.example.weatherapp"
         minSdk = 24
@@ -18,6 +17,9 @@ android {
     }
     buildFeatures{
         viewBinding=true
+    }
+    testOptions {
+        unitTests.isReturnDefaultValues=true
     }
     buildTypes {
         release {
@@ -48,7 +50,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.swiperefreshlayout)
     testImplementation(libs.junit)
-
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
